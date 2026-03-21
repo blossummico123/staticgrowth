@@ -1,0 +1,33 @@
+# Scan results
+sentinel-results/
+
+# Environment files
+.env
+dependency-track.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Tool caches
+.semgrep/
+.modelscan/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Pickle-Fuzzer generated samples
+tests/fixtures/fuzz-output/

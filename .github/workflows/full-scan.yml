@@ -1,0 +1,193 @@
+name: "AI Sentinel — Full Scan"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  # ── Layer 1: Code SAST ──────────────────────────────────────────
+  code-sast:
+    name: "Layer 1: Code SAST"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: pip install semgrep
+      - name: Run Semgrep
+        run: |
+          mkdir -p results/code
+          semgrep scan \
+            --config "p/security-audit" \
+            --config "p/owasp-top-ten" \
+            --config configs/semgrep.yml \
+            --sarif-output=results/code/semgrep.sarif \
+            --json-output=results/code/semgrep.json \
+            --quiet . || true
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results/code/semgrep.sarif
+          category: semgrep
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-code
+          path: results/code/
+
+  # ── Layer 1b: Agent Architecture ────────────────────────────────
+  agent-scan:
+    name: "Layer 1b: Agent Architecture"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: pip install agentic-radar || true
+      - name: Run agent scanning
+        run: |
+          mkdir -p results/agents
+          bash scripts/scan-agents.sh || true
+        env:
+          TARGET: "."
+          RESULTS_DIR: "results"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-agents
+          path: results/agents/
+
+  # ── Layer 2: Model Artifacts ────────────────────────────────────
+  model-scan:
+    name: "Layer 2: Model Artifacts"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: |
+          pip install modelscan picklescan "modelaudit[all]" "veritensor[all]" "fickling[torch]" || true
+      - name: Run model scanning
+        run: |
+          mkdir -p results/models/fickling
+          bash scripts/scan-models.sh || true
+        env:
+          TARGET: "."
+          RESULTS_DIR: "results"
+          CONFIGS_DIR: "configs"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-models
+          path: results/models/
+
+  # ── Layer 3: Prompt Testing ─────────────────────────────────────
+  prompt-test:
+    name: "Layer 3: Prompt Testing"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Promptfoo
+        run: npm install -g promptfoo
+      - name: Run prompt tests
+        run: |
+          mkdir -p results/prompts
+          bash scripts/scan-prompts.sh || true
+        env:
+          TARGET: "."
+          RESULTS_DIR: "results"
+          CONFIGS_DIR: "configs"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-prompts
+          path: results/prompts/
+
+  # ── Layer 4: Dependencies ───────────────────────────────────────
+  dep-scan:
+    name: "Layer 4: Dependencies"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: pip install cve-bin-tool || true
+      - name: Run OSV-Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v2
+        with:
+          scan-args: |-
+            --format=json
+            --output=results/deps/osv-scanner.json
+            .
+        continue-on-error: true
+      - name: Run CVE Binary Tool
+        run: |
+          mkdir -p results/deps
+          cve-bin-tool --format json --output-file results/deps/cve-bin-tool.json . || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-deps
+          path: results/deps/
+
+  # ── Layer 5: SBOM ──────────────────────────────────────────────
+  sbom:
+    name: "Layer 5: SBOM Generation"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: |
+          pip install aisbom-cli || true
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin || true
+      - name: Generate SBOMs
+        run: |
+          mkdir -p results/sbom
+          bash scripts/scan-sbom.sh || true
+        env:
+          TARGET: "."
+          RESULTS_DIR: "results"
+          DT_URL: ${{ secrets.DT_URL }}
+          DT_API_KEY: ${{ secrets.DT_API_KEY }}
+          DT_PROJECT_UUID: ${{ secrets.DT_PROJECT_UUID }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-sbom
+          path: results/sbom/
+
+  # ── Report ─────────────────────────────────────────────────────
+  report:
+    name: "Generate Report"
+    runs-on: ubuntu-latest
+    needs: [code-sast, agent-scan, model-scan, prompt-test, dep-scan, sbom]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: results
+          pattern: results-*
+          merge-multiple: true
+      - name: Generate report
+        run: bash scripts/report.sh
+        env:
+          RESULTS_DIR: "results"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sentinel-report
+          path: results/REPORT.md

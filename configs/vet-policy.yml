@@ -1,0 +1,53 @@
+# AI Sentinel — SafeDep vet Policy Configuration
+# CEL expression policies for dependency evaluation
+# https://github.com/safedep/vet
+
+policies:
+  # Block dependencies with critical CVEs
+  - name: block-critical-vulns
+    description: "Block packages with CRITICAL severity vulnerabilities"
+    action: deny
+    expression: >
+      vulns.critical.exists(v, true)
+
+  # Block known malicious packages
+  - name: block-malware
+    description: "Block packages flagged as malware"
+    action: deny
+    expression: >
+      pkg.malware == true
+
+  # Warn on packages with high CVEs
+  - name: warn-high-vulns
+    description: "Warn on packages with HIGH severity vulnerabilities"
+    action: warn
+    expression: >
+      vulns.high.exists(v, true)
+
+  # Warn on low-maintenance packages (OpenSSF Scorecard)
+  - name: warn-unmaintained
+    description: "Warn on packages with low OpenSSF Scorecard scores"
+    action: warn
+    expression: >
+      scorecard.score < 4.0
+
+  # Warn on packages with no recent releases
+  - name: warn-stale
+    description: "Warn on packages with no releases in 2+ years"
+    action: warn
+    expression: >
+      pkg.last_release_age_days > 730
+
+  # Warn on copyleft licenses
+  - name: warn-copyleft
+    description: "Warn on copyleft-licensed dependencies"
+    action: warn
+    expression: >
+      pkg.license in ["GPL-2.0", "GPL-3.0", "AGPL-3.0", "LGPL-3.0"]
+
+  # Block deprecated packages
+  - name: block-deprecated
+    description: "Block deprecated packages"
+    action: deny
+    expression: >
+      pkg.deprecated == true

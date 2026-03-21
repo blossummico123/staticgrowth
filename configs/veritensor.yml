@@ -1,0 +1,78 @@
+# AI Sentinel — Veritensor Configuration
+# https://github.com/ArseniiBrazhnyk/Veritensor
+
+scan:
+  # Fail on CRITICAL severity findings
+  severity_threshold: CRITICAL
+
+  # Enable recursive scanning
+  recursive: true
+
+  # Parallel scanning jobs
+  jobs: 4
+
+# License firewall — block restrictive licenses
+license:
+  blocked:
+    - CC-BY-NC        # Non-commercial only
+    - CC-BY-NC-SA     # Non-commercial share-alike
+    - CC-BY-NC-ND     # Non-commercial no-derivatives
+    - AGPL-3.0        # Copyleft (network use triggers)
+    - research-only   # Academic use only
+  warn:
+    - GPL-3.0         # Strong copyleft
+    - GPL-2.0         # Strong copyleft
+    - LGPL-3.0        # Weak copyleft
+
+# Pickle module allowlist — common safe modules
+pickle:
+  allowed_modules:
+    # scikit-learn internals
+    - sklearn
+    - sklearn.*
+    # NumPy internals
+    - numpy
+    - numpy.*
+    # PyTorch internals
+    - torch
+    - torch.*
+    - _torch
+    # Common ML utilities
+    - collections
+    - builtins
+    - copyreg
+    - _codecs
+  blocked_modules:
+    - os
+    - os.*
+    - subprocess
+    - subprocess.*
+    - sys
+    - shutil
+    - socket
+    - http
+    - requests
+    - urllib
+    - ctypes
+    - importlib
+    - __builtin__
+    - webbrowser
+    - code
+    - codeop
+    - compile
+    - compileall
+
+# Trusted model repositories for hash verification
+trusted_repos:
+  - meta-llama/*
+  - google/*
+  - sentence-transformers/*
+  - microsoft/*
+  - openai/*
+  - stabilityai/*
+  - mistralai/*
+
+# Output formats
+output:
+  sarif: true
+  sbom: true  # CycloneDX format

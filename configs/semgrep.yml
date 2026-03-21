@@ -1,0 +1,151 @@
+rules:
+  # ── Unsafe Deserialization ────────────────────────────────────────
+  - id: unsafe-pickle-load
+    patterns:
+      - pattern: pickle.load(...)
+      - pattern-not: pickle.load(..., weights_only=True, ...)
+    message: >
+      Unsafe pickle.load() without weights_only=True. Pickle deserialization
+      can execute arbitrary code. Use weights_only=True or switch to safetensors.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-502: Deserialization of Untrusted Data"
+      owasp: "A8:2017 Insecure Deserialization"
+
+  - id: unsafe-torch-load
+    patterns:
+      - pattern: torch.load(...)
+      - pattern-not: torch.load(..., weights_only=True, ...)
+    message: >
+      Unsafe torch.load() without weights_only=True. Since PyTorch 2.6,
+      weights_only defaults to True. For older versions, set it explicitly
+      or use torch.safe_globals.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-502: Deserialization of Untrusted Data"
+
+  # ── LLM Output Execution ─────────────────────────────────────────
+  - id: llm-output-exec
+    patterns:
+      - pattern: exec($OUTPUT)
+      - pattern: eval($OUTPUT)
+    message: >
+      Executing LLM-generated output with exec()/eval() enables arbitrary
+      code execution. Sanitize or sandbox all LLM output before execution.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-94: Improper Control of Generation of Code"
+
+  - id: llm-output-subprocess
+    patterns:
+      - pattern: subprocess.run($CMD, shell=True, ...)
+      - pattern: subprocess.Popen($CMD, shell=True, ...)
+      - pattern: os.system($CMD)
+      - pattern: os.popen($CMD)
+    message: >
+      Passing dynamic input to shell commands. If this includes LLM output,
+      it enables command injection. Use subprocess with shell=False and
+      explicit argument lists.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-78: OS Command Injection"
+
+  # ── Prompt Injection ─────────────────────────────────────────────
+  - id: unsanitized-prompt-template
+    patterns:
+      - pattern: f"...{$USER_INPUT}..."
+      - pattern: "...{}...".format($USER_INPUT)
+      - pattern: "...%s..." % $USER_INPUT
+    message: >
+      User input interpolated directly into prompt template. This enables
+      prompt injection. Use parameterized prompt templates or input
+      sanitization.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-74: Improper Neutralization of Special Elements in Output"
+
+  # ── Hardcoded API Keys ───────────────────────────────────────────
+  - id: hardcoded-openai-key
+    pattern: |
+      $KEY = "sk-..."
+    message: >
+      Hardcoded OpenAI API key detected. Use environment variables or a
+      secrets manager.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+
+  - id: hardcoded-anthropic-key
+    pattern: |
+      $KEY = "sk-ant-..."
+    message: >
+      Hardcoded Anthropic API key detected. Use environment variables or a
+      secrets manager.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+
+  # ── Model Endpoint Security ──────────────────────────────────────
+  - id: model-endpoint-no-auth
+    patterns:
+      - pattern: |
+          @app.route(...)
+          def $FUNC(...):
+              ...
+              model.predict(...)
+              ...
+      - pattern-not-inside: |
+          @login_required
+          def $FUNC(...):
+              ...
+      - pattern-not-inside: |
+          @requires_auth
+          def $FUNC(...):
+              ...
+    message: >
+      Model inference endpoint without authentication decorator. Add
+      authentication to prevent unauthorized model access and extraction.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-306: Missing Authentication for Critical Function"
+
+  - id: model-endpoint-no-rate-limit
+    patterns:
+      - pattern: |
+          @app.route(...)
+          def $FUNC(...):
+              ...
+              model.predict(...)
+              ...
+      - pattern-not-inside: |
+          @limiter.limit(...)
+          def $FUNC(...):
+              ...
+      - pattern-not-inside: |
+          @rate_limit(...)
+          def $FUNC(...):
+              ...
+    message: >
+      Model inference endpoint without rate limiting. Add rate limiting to
+      prevent model extraction attacks via repeated queries.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-770: Allocation of Resources Without Limits or Throttling"

@@ -1,0 +1,46 @@
+[project]
+name = "ai-sentinel"
+version = "0.1.0"
+description = "Orchestration layer for AI/ML security scanning — one pipeline, one config, one report."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+# Minimal stack (Phase 1)
+minimal = [
+    "modelscan",
+    "aisbom-cli",
+]
+
+# Full scanning stack
+scanning = [
+    "modelscan",
+    "picklescan",
+    "modelaudit[all]",
+    "veritensor[all]",
+    "fickling[torch]",
+    "aisbom-cli",
+    "cve-bin-tool",
+    "semgrep",
+]
+
+# Prompt testing (requires separate API keys)
+prompts = [
+    "promptfoo",
+]
+
+# Agent scanning
+agents = [
+    "agentic-radar",
+]
+
+# Development
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"

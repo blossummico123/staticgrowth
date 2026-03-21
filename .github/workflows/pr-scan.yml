@@ -1,0 +1,117 @@
+name: "AI Sentinel — PR Scan (Fast Gate)"
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+concurrency:
+  group: pr-scan-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  semgrep:
+    name: "Code SAST (Semgrep)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep
+        run: |
+          semgrep scan \
+            --config "p/security-audit" \
+            --config "p/owasp-top-ten" \
+            --config configs/semgrep.yml \
+            --sarif-output=semgrep.sarif \
+            --json-output=semgrep.json \
+            --quiet \
+            . || true
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+        continue-on-error: true
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: |
+            semgrep.json
+            semgrep.sarif
+
+  model-scan:
+    name: "Model Scan (ModelScan + Picklescan)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for model files
+        id: check
+        run: |
+          if find . -name "*.pt" -o -name "*.pth" -o -name "*.pkl" -o -name "*.pickle" \
+               -o -name "*.h5" -o -name "*.onnx" -o -name "*.safetensors" -o -name "*.gguf" \
+               -o -name "*.joblib" -o -name "*.bin" | grep -q .; then
+            echo "has_models=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_models=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install scanners
+        if: steps.check.outputs.has_models == 'true'
+        run: pip install modelscan picklescan
+
+      - name: Run ModelScan
+        if: steps.check.outputs.has_models == 'true'
+        run: |
+          find . -name "*.pt" -o -name "*.pth" -o -name "*.pkl" -o -name "*.pickle" \
+               -o -name "*.h5" -o -name "*.onnx" -o -name "*.safetensors" | while read -r f; do
+            echo "Scanning: $f"
+            modelscan -p "$f" -r json || true
+          done
+
+      - name: Run Picklescan
+        if: steps.check.outputs.has_models == 'true'
+        run: picklescan --path . || true
+
+  osv-scanner:
+    name: "Dependency CVEs (OSV-Scanner)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run OSV-Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v2
+        with:
+          scan-args: |-
+            --format=sarif
+            --output=osv-scanner.sarif
+            .
+        continue-on-error: true
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: osv-scanner.sarif
+        continue-on-error: true
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: osv-scanner-results
+          path: osv-scanner.sarif
