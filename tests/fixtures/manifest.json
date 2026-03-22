@@ -1,0 +1,140 @@
+[
+  {
+    "file": "malicious-pickle.pkl",
+    "malicious": true,
+    "category": "pickle-exploit",
+    "description": "Calls builtins.eval() via STACK_GLOBAL + REDUCE",
+    "techniques": [
+      "STACK_GLOBAL",
+      "REDUCE",
+      "builtins.eval"
+    ]
+  },
+  {
+    "file": "malicious-os-system.pkl",
+    "malicious": true,
+    "category": "pickle-exploit",
+    "description": "Calls os.system() via __reduce__",
+    "techniques": [
+      "__reduce__",
+      "GLOBAL",
+      "os.system"
+    ]
+  },
+  {
+    "file": "malicious-subprocess.pkl",
+    "malicious": true,
+    "category": "pickle-exploit",
+    "description": "Calls subprocess.Popen via __reduce__",
+    "techniques": [
+      "__reduce__",
+      "GLOBAL",
+      "subprocess.Popen"
+    ]
+  },
+  {
+    "file": "malicious-socket.pkl",
+    "malicious": true,
+    "category": "pickle-exploit",
+    "description": "Creates socket.socket via __reduce__",
+    "techniques": [
+      "__reduce__",
+      "GLOBAL",
+      "socket.socket"
+    ]
+  },
+  {
+    "file": "malicious-exec.pkl",
+    "malicious": true,
+    "category": "pickle-exploit",
+    "description": "Calls builtins.exec() with compound statement via __reduce__",
+    "techniques": [
+      "__reduce__",
+      "GLOBAL",
+      "builtins.exec"
+    ]
+  },
+  {
+    "file": "malicious-nested.pkl",
+    "malicious": true,
+    "category": "pickle-exploit",
+    "description": "os.system() hidden inside nested dict structure",
+    "techniques": [
+      "__reduce__",
+      "GLOBAL",
+      "os.system",
+      "nested-container"
+    ]
+  },
+  {
+    "file": "malicious-import.pkl",
+    "malicious": true,
+    "category": "pickle-exploit",
+    "description": "Calls builtins.__import__('os') via __reduce__",
+    "techniques": [
+      "__reduce__",
+      "GLOBAL",
+      "builtins.__import__"
+    ]
+  },
+  {
+    "file": "malicious-webbrowser.pkl",
+    "malicious": true,
+    "category": "pickle-exploit",
+    "description": "Opens URL via webbrowser.open \u2014 exfiltration vector",
+    "techniques": [
+      "__reduce__",
+      "GLOBAL",
+      "webbrowser.open"
+    ]
+  },
+  {
+    "file": "safe-model.pt",
+    "malicious": false,
+    "category": "clean-pickle",
+    "description": "Standard PyTorch state dict with only safe builtins",
+    "techniques": []
+  },
+  {
+    "file": "safe-sklearn.pkl",
+    "malicious": false,
+    "category": "clean-pickle",
+    "description": "Sklearn-style model dict with only safe builtins",
+    "techniques": []
+  },
+  {
+    "file": "safe-config.pkl",
+    "malicious": false,
+    "category": "clean-pickle",
+    "description": "Plain config dict \u2014 no code execution possible",
+    "techniques": []
+  },
+  {
+    "file": "safe-numpy-style.pkl",
+    "malicious": false,
+    "category": "clean-pickle",
+    "description": "Weight matrix as plain lists \u2014 no numpy dependency",
+    "techniques": []
+  },
+  {
+    "file": "safe-model.safetensors",
+    "malicious": false,
+    "category": "clean-safetensors",
+    "description": "Valid safetensors with metadata-only header \u2014 inherently safe format",
+    "techniques": []
+  },
+  {
+    "file": "safe-model.onnx",
+    "malicious": false,
+    "category": "clean-onnx",
+    "description": "Minimal valid ONNX protobuf \u2014 no executable content",
+    "techniques": []
+  },
+  {
+    "file": "safe-model.h5",
+    "malicious": false,
+    "category": "clean-hdf5",
+    "description": "Minimal HDF5 with valid signature \u2014 no Lambda layers",
+    "techniques": []
+  }
+]

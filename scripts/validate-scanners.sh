@@ -1,14 +1,29 @@
 #!/usr/bin/env bash
-# AI Sentinel — Meta-tool: Test scanners with adversarial pickle samples
+# AI Sentinel — Meta-tool: Validate scanners against ground truth + fuzz samples
 set -euo pipefail
 
 RESULTS_DIR="${RESULTS_DIR:-sentinel-results}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 info() { echo "==> [validate] $*"; }
 warn() { echo "  [!] $*"; }
 
+# ── Phase 1: Static ground truth fixtures ────────────────────────────
+FIXTURES_TEST="${PROJECT_ROOT}/tests/test-scanners.sh"
+if [ -f "$FIXTURES_TEST" ]; then
+    info "Phase 1: Testing scanners against ground truth fixtures..."
+    # Regenerate fixtures to ensure they're current
+    python3 "${PROJECT_ROOT}/tests/fixtures/generate-fixtures.py" 2>/dev/null || true
+    bash "$FIXTURES_TEST" || warn "Some scanners failed ground truth validation"
+    echo ""
+else
+    warn "Ground truth test suite not found at ${FIXTURES_TEST}"
+fi
+
+# ── Phase 2: Fuzz testing ────────────────────────────────────────────
 if ! command -v pickle-fuzzer >/dev/null 2>&1; then
-    warn "Pickle-Fuzzer not installed — skipping scanner validation"
+    warn "Pickle-Fuzzer not installed — skipping fuzz validation"
     warn "Install via: cargo install pickle-fuzzer"
     exit 0
 fi
