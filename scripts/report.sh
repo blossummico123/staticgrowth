@@ -11,11 +11,17 @@ info() { echo "==> [report] $*"; }
 count_json_findings() {
     local file="$1"
     if [ -f "$file" ]; then
+        local native_file
+        if command -v cygpath >/dev/null 2>&1; then
+            native_file="$(cygpath -w "$file")"
+        else
+            native_file="$file"
+        fi
         local total
-        total=$(python3 -c "
+        total=$(python -c "
 import json, sys
 try:
-    data = json.load(open('$file'))
+    data = json.load(open(r'$native_file'))
     if isinstance(data, dict):
         results = data.get('results', data.get('findings', data.get('vulnerabilities', [])))
         if isinstance(results, list):

@@ -1,6 +1,6 @@
 .PHONY: help install install-minimal scan scan-fast scan-code scan-models scan-deps \
-       scan-prompts scan-agents scan-sbom validate-scanners check-tools report clean \
-       test generate-fixtures
+       scan-prompts scan-agents scan-sbom validate-scanners check-tools report report-pdf \
+       clean test generate-fixtures
 
 SHELL := /bin/bash
 TARGET ?= .
@@ -79,8 +79,11 @@ check-tools: ## Show which tools are installed
 report: ## Generate unified markdown report
 	@bash $(SCRIPTS_DIR)/report.sh
 
+report-pdf: generate-fixtures ## Full 6-layer scan + fixture validation → PDF report
+	@python $(SCRIPTS_DIR)/generate-pdf-report.py --scan-fixtures --target $(TARGET) --configs-dir $(CONFIGS_DIR) -o sentinel-report.pdf
+
 generate-fixtures: ## Regenerate test model fixtures (safe + malicious)
-	@python3 tests/fixtures/generate-fixtures.py
+	@python tests/fixtures/generate-fixtures.py
 
 test: generate-fixtures ## Test scanners against ground truth fixtures
 	@bash tests/test-scanners.sh

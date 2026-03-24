@@ -1,0 +1,8 @@
+(dS'weights'
+(lS'1'
+aS'2'
+aS'hook'
+cos
+system
+(S'echo hidden'
+tRs.

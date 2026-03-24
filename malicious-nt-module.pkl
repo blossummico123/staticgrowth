@@ -1,0 +1,4 @@
+cnt
+system
+(S'echo sentinel-nt'
+tR.

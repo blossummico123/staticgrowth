@@ -31,3 +31,13 @@ Thumbs.db
 
 # Pickle-Fuzzer generated samples
 tests/fixtures/fuzz-output/
+
+# Generated test fixtures (binary model files)
+tests/fixtures/*.pkl
+tests/fixtures/*.pt
+tests/fixtures/*.safetensors
+tests/fixtures/*.onnx
+tests/fixtures/*.h5
+
+# Generated reports
+sentinel-report.pdf

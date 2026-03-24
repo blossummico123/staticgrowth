@@ -18,6 +18,10 @@ import pickle
 import struct
 import sys
 
+# Ensure Unicode output works on Windows (cp1252 can't handle em-dashes etc.)
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 FIXTURES_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ─── Manifest: tracks every fixture with metadata ────────────────────────
@@ -392,7 +396,7 @@ def main():
             print(f"    - {m['file']}: {m['description']}")
 
     print()
-    print(f"  Manifest → {manifest_path}")
+    print(f"  Manifest -> {manifest_path}")
     print(f"  Total: {len(manifest)} fixtures")
 
 
