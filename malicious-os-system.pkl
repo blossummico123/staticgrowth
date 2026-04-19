@@ -1,0 +1,4 @@
+cos
+system
+(S'echo sentinel-pickle-os'
+tR.

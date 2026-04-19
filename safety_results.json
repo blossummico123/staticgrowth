@@ -1,0 +1,1171 @@
+{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "The file has invalid opcode(s). It is either corrupted or attempting to bypass the pickle security analysis\n`from builtins import eval` imports `eval` which can execute arbitrary code\n`from builtins import eval` is suspicious and indicative of an overtly malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImportsML": "from builtins import eval",
+            "UnsafeImports": "from builtins import eval"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from subprocess import Popen` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `Popen(['echo', 'pwned'])` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from subprocess import Popen",
+            "UnusedVariables": "_var0: Popen(['echo', 'pwned'])"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from socket import socket` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `socket()` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from socket import socket",
+            "UnusedVariables": "_var0: socket()"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `exec(...)` is almost certainly evidence of a malicious pickle file\n`from builtins import exec` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `exec(...)` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "exec(...)",
+            "UnsafeImports": "from builtins import exec",
+            "UnusedVariables": "_var0: exec(...)"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from nt import system` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `system('echo inner-pwned')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from nt import system",
+            "UnusedVariables": "_var0: system('echo inner-pwned')"
+        }
+    }
+}{
+    "severity": "LIKELY_OVERTLY_MALICIOUS",
+    "analysis": "`from builtins import __import__` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `__import__('os')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "UnsafeImports": "from builtins import __import__",
+            "UnusedVariables": "_var0: __import__('os')"
+        }
+    }
+}{
+    "severity": "OVERTLY_MALICIOUS",
+    "analysis": "Call to `open('http://evil.example.com')` is almost certainly evidence of a malicious pickle file\n`from webbrowser import open` is suspicious and indicative of an overtly malicious pickle file\nVariable `_var0` is assigned value `open('http://evil.example.com')` but unused afterward; this is suspicious and indicative of a malicious pickle file",
+    "detailed_results": {
+        "AnalysisResult": {
+            "OvertlyBadEval": "open('http://evil.example.com')",
+            "UnsafeImports": "from webbrowser import open",
+            "UnusedVariables": "_var0: open('http://evil.example.com')"
+        }
+    }
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}{
+    "severity": "LIKELY_SAFE",
+    "analysis": "Warning: Fickling failed to detect any overtly unsafe code,but the pickle file may still be unsafe.Do not unpickle this file if it is from an untrusted source!\n\n",
+    "detailed_results": {}
+}

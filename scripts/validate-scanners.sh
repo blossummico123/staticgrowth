@@ -14,7 +14,7 @@ FIXTURES_TEST="${PROJECT_ROOT}/tests/test-scanners.sh"
 if [ -f "$FIXTURES_TEST" ]; then
     info "Phase 1: Testing scanners against ground truth fixtures..."
     # Regenerate fixtures to ensure they're current
-    python3 "${PROJECT_ROOT}/tests/fixtures/generate-fixtures.py" 2>/dev/null || true
+    python "${PROJECT_ROOT}/tests/fixtures/generate-fixtures.py" 2>/dev/null || true
     bash "$FIXTURES_TEST" || warn "Some scanners failed ground truth validation"
     echo ""
 else
@@ -60,16 +60,16 @@ test_scanner() {
     for pkl in "$FUZZ_DIR"/*.pkl; do
         case "$name" in
             ModelScan)
-                modelscan -p "$pkl" -r json 2>/dev/null | grep -q '"severity"' && ((detected++)) || true
+                modelscan -p "$pkl" -r json 2>/dev/null | grep -qE '"total_issues": *[1-9]' && detected=$((detected + 1)) || true
                 ;;
             Picklescan)
-                picklescan --path "$pkl" 2>/dev/null | grep -qi "malicious\|dangerous" && ((detected++)) || true
+                picklescan --path "$pkl" 2>&1 | grep -qiE "dangerous import.*FOUND|Infected files: *[1-9]" && detected=$((detected + 1)) || true
                 ;;
             ModelAudit)
-                modelaudit "$pkl" --format json 2>/dev/null | grep -q '"severity"' && ((detected++)) || true
+                modelaudit "$pkl" --format json 2>/dev/null | grep -qE '"total_issues": *[1-9]|"severity"' && detected=$((detected + 1)) || true
                 ;;
             Fickling)
-                fickling --check-safety -p "$pkl" 2>/dev/null | grep -qi "unsafe\|malicious" && ((detected++)) || true
+                fickling --check-safety -p "$pkl" 2>&1 | grep -qiE "unsafe|malicious|dangerous|overtly" && detected=$((detected + 1)) || true
                 ;;
         esac
     done

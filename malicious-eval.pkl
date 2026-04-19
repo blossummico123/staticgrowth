@@ -1,0 +1,4 @@
+c__builtin__
+eval
+(S'1+1'
+tR.

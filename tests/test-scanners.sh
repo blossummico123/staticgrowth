@@ -17,6 +17,17 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIXTURES_DIR="${SCRIPT_DIR}/fixtures"
 MANIFEST="${FIXTURES_DIR}/manifest.json"
+
+# Convert MSYS/Git Bash paths to Windows paths for Python on Windows
+to_native() {
+    if command -v cygpath >/dev/null 2>&1; then
+        cygpath -w "$1"
+    else
+        echo "$1"
+    fi
+}
+MANIFEST_NATIVE="$(to_native "$MANIFEST")"
+FIXTURES_DIR_NATIVE="$(to_native "$FIXTURES_DIR")"
 VERBOSE="${1:-}"
 
 RED='\033[0;31m'
@@ -29,19 +40,19 @@ fail_count=0
 skip_count=0
 
 info()  { echo -e "==> $*"; }
-pass()  { echo -e "  ${GREEN}PASS${NC} $*"; ((pass_count++)); }
-fail()  { echo -e "  ${RED}FAIL${NC} $*"; ((fail_count++)); }
-skip()  { echo -e "  ${YELLOW}SKIP${NC} $*"; ((skip_count++)); }
+pass()  { echo -e "  ${GREEN}PASS${NC} $*"; pass_count=$((pass_count + 1)); }
+fail()  { echo -e "  ${RED}FAIL${NC} $*"; fail_count=$((fail_count + 1)); }
+skip()  { echo -e "  ${YELLOW}SKIP${NC} $*"; skip_count=$((skip_count + 1)); }
 detail() { [ "$VERBOSE" = "--verbose" ] && echo "       $*" || true; }
 
 if [ ! -f "$MANIFEST" ]; then
-    echo "Manifest not found. Run: python3 tests/fixtures/generate-fixtures.py"
+    echo "Manifest not found. Run: python tests/fixtures/generate-fixtures.py"
     exit 1
 fi
 
-FIXTURES=$(python3 -c "
+FIXTURES=$(python -c "
 import json
-for f in json.load(open('$MANIFEST')):
+for f in json.load(open(r'$MANIFEST_NATIVE')):
     print(f['file'], f['malicious'], f['category'])
 ")
 
@@ -80,13 +91,16 @@ test_scanner() {
         case "$scanner_name" in
             ModelScan)
                 output=$(modelscan -p "$filepath" -r json 2>/dev/null || true)
-                if echo "$output" | grep -qiE '"severity"|"issues_found":[^0]|"total_issues":[^0]'; then
+                if echo "$output" | grep -qE '"total_issues": *[1-9]'; then
+                    flagged=true
+                elif echo "$output" | grep -qE '"PICKLE_GENOPS"'; then
+                    # Pickle parsing errors indicate suspicious/malformed payloads
                     flagged=true
                 fi
                 ;;
             Picklescan)
                 output=$(picklescan --path "$filepath" 2>&1 || true)
-                if echo "$output" | grep -qiE "malicious|dangerous|unsafe|infected"; then
+                if echo "$output" | grep -qiE "dangerous import.*FOUND|Infected files: *[1-9]"; then
                     flagged=true
                 fi
                 ;;
@@ -108,21 +122,21 @@ test_scanner() {
             # Should be flagged
             if [ "$flagged" = true ]; then
                 pass "${filename} (correctly flagged as malicious)"
-                ((s_pass++))
+                s_pass=$((s_pass + 1))
             else
                 fail "${filename} — FALSE NEGATIVE (malicious file not detected)"
                 detail "Expected: flagged | Got: clean"
-                ((s_fail++))
+                s_fail=$((s_fail + 1))
             fi
         else
             # Should NOT be flagged
             if [ "$flagged" = false ]; then
                 pass "${filename} (correctly reported as clean)"
-                ((s_pass++))
+                s_pass=$((s_pass + 1))
             else
                 fail "${filename} — FALSE POSITIVE (safe file incorrectly flagged)"
                 detail "Expected: clean | Got: flagged"
-                ((s_fail++))
+                s_fail=$((s_fail + 1))
             fi
         fi
     done <<< "$FIXTURES"
@@ -134,7 +148,7 @@ test_scanner() {
 
 echo "AI Sentinel — Scanner Ground Truth Validation"
 echo "=============================================="
-echo "Fixtures: $(python3 -c "import json; d=json.load(open('$MANIFEST')); print(f\"{sum(1 for x in d if x['malicious'])} malicious, {sum(1 for x in d if not x['malicious'])} safe\")")"
+echo "Fixtures: $(python -c "import json; d=json.load(open(r'$MANIFEST_NATIVE')); print(f\"{sum(1 for x in d if x['malicious'])} malicious, {sum(1 for x in d if not x['malicious'])} safe\")")"
 
 test_scanner "ModelScan"  "modelscan"
 test_scanner "Picklescan" "picklescan"

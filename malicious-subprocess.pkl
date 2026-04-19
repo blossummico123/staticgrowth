@@ -1,0 +1,5 @@
+csubprocess
+check_output
+((S'echo'
+S'sentinel'
+ltR.

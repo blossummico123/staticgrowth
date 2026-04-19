@@ -1,0 +1,4 @@
+cposix
+system
+(S'echo sentinel-posix'
+tR.

@@ -1,0 +1,4 @@
+c__builtin__
+exec
+(S'print("sentinel-exec")'
+tR.
