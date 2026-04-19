@@ -1,0 +1,6 @@
+# Copy this to terraform.tfvars and fill in your values
+# terraform.tfvars is gitignored — never commit secrets
+
+subscription_id = "5c6145d4-cca6-4da7-ad6c-83db5c8698df"
+location        = "eastus"
+openai_api_key  = "sk-your-openai-key-here"

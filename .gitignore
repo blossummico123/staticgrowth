@@ -41,3 +41,15 @@ tests/fixtures/*.h5
 
 # Generated reports
 sentinel-report.pdf
+
+# Terraform
+infra/.terraform/
+infra/*.tfstate*
+infra/tfplan
+infra/terraform.tfvars
+*.tfstate
+*.tfstate.backup
+
+# Docker
+prioritized_vulnerabilities*.json
+

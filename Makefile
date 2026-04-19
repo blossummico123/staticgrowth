@@ -1,6 +1,6 @@
 .PHONY: help install install-minimal scan scan-fast scan-code scan-models scan-deps \
        scan-prompts scan-agents scan-sbom validate-scanners check-tools report report-pdf \
-       clean test generate-fixtures
+       clean test generate-fixtures prioritize
 
 SHELL := /bin/bash
 TARGET ?= .
@@ -94,3 +94,10 @@ test-verbose: generate-fixtures ## Test scanners with per-file details
 clean: ## Remove all scan results
 	@rm -rf sentinel-results/
 	@echo "==> Cleaned sentinel-results/"
+
+prioritize: ## AI-prioritize vulnerabilities using OpenAI (requires OPENAI_API_KEY)
+	@python $(SCRIPTS_DIR)/prioritize_vulnerabilities.py \
+		--safety-results safety_results.json \
+		--results-dir $(RESULTS_DIR) \
+		--scan-dir $(TARGET) \
+		-o prioritized_vulnerabilities.json
