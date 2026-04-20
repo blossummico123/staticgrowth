@@ -54,7 +54,31 @@
       "Bash(vet version:*)",
       "Bash(unzip -o codeql.zip -d ~/bin/codeql-install)",
       "Bash(export PATH=\"$HOME/bin/codeql-install/codeql:$PATH\")",
-      "Bash(codeql version:*)"
+      "Bash(codeql version:*)",
+      "Bash(az --version)",
+      "Bash(terraform --version)",
+      "Bash(docker --version)",
+      "Bash(az account:*)",
+      "Bash(terraform init:*)",
+      "Bash(terraform state:*)",
+      "Bash(az containerapp:*)",
+      "Bash(az group:*)",
+      "Bash(terraform plan:*)",
+      "Bash(terraform apply:*)",
+      "Bash(az keyvault:*)",
+      "Bash(terraform destroy:*)",
+      "Bash(az storage:*)",
+      "Bash(terraform import:*)",
+      "Bash(MSYS_NO_PATHCONV=1 terraform import azurerm_storage_account.storage /subscriptions/5c6145d4-cca6-4da7-ad6c-83db5c8698df/resourceGroups/rg-aisentinel-prod/providers/Microsoft.Storage/storageAccounts/staisentinelprod)",
+      "Bash(MSYS_NO_PATHCONV=1 terraform import azurerm_user_assigned_identity.api_identity /subscriptions/5c6145d4-cca6-4da7-ad6c-83db5c8698df/resourceGroups/rg-aisentinel-prod/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aisentinel-prod)",
+      "Bash(export TF_VAR_openai_api_key=\"placeholder\")",
+      "Bash(terraform output:*)",
+      "Bash(az acr:*)",
+      "Bash(docker build:*)",
+      "Bash(docker info:*)",
+      "Bash(docker version:*)",
+      "Bash(MSYS_NO_PATHCONV=1 terraform import azurerm_container_app.api /subscriptions/5c6145d4-cca6-4da7-ad6c-83db5c8698df/resourceGroups/rg-aisentinel-prod/providers/Microsoft.App/containerApps/ca-aisentinel-prod)",
+      "Bash(curl:*)"
     ]
   }
 }
