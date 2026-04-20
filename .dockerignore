@@ -1,35 +1,43 @@
+# ---------------------------------------------------------------------------
+# AI Sentinel — Docker Build Context Exclusions
+# Only exclude things that are truly not needed in the container
+# ---------------------------------------------------------------------------
+
+# Version control & IDE
 .git
 .github
 .gitignore
 .vscode
 .idea
+.claude
+.qodo
+
+# Python cache
 __pycache__
 *.pyc
+
+# Previous scan results (regenerated at runtime)
 sentinel-results/
-tests/
+
+# Documentation (not needed at runtime)
 docs/
-*.md
-*.pdf
-Makefile
+README.md
+
+# Environment / secrets
 .env
 dependency-track.env
-malicious-*
-safe-*
-*.pkl
-*.pt
-*.pth
-*.h5
-*.onnx
-*.safetensors
-*.gguf
-*.joblib
-*.npy
-*.npz
-*.tflite
-*.bin
-*.dill
-*.cloudpickle
-*.tar.gz
+*.env.example
+
+# Infrastructure (Terraform / deploy scripts — not needed inside container)
 infra/
 .terraform/
 *.tfstate*
+
+# Pre-built report artifacts
+*.pdf
+
+# Root-level model fixture files (tests/fixtures/ has its own generated set)
+# These root-level files are just development samples
+malicious-*
+safe-*
+safety_results.json

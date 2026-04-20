@@ -12,7 +12,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$OpenAIApiKey,
 
-    [string]$Location = "eastus",
+    [string]$Location = "eastus2",
     [string]$ImageTag = "latest",
     [switch]$Destroy,
     [switch]$PlanOnly
