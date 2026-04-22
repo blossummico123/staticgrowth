@@ -1,6 +1,8 @@
 # ===========================================================================
-# AI Sentinel — Complete Python Dependencies
-# All open-source libraries needed for the full 6-layer scanning pipeline
+# AI Sentinel — Python Dependencies
+# Only genuine Python (pip-installable) packages belong here.
+# Non-Python tools (Go, Node, Rust, .NET binaries) are installed separately
+# in the Dockerfile and install.sh.
 # ===========================================================================
 
 # ---------------------------------------------------------------------------
@@ -28,7 +30,7 @@ azure-ai-ml>=1.15.0
 fpdf2>=2.8.0
 
 # ---------------------------------------------------------------------------
-# Layer 1 — Code SAST
+# Layer 1 — Code SAST (Python wrapper; ships bundled OCaml binary)
 # ---------------------------------------------------------------------------
 semgrep>=1.90.0
 
@@ -36,7 +38,7 @@ semgrep>=1.90.0
 # Layer 1b — Agent Architecture Scanning
 # ---------------------------------------------------------------------------
 agentic-radar>=0.1.0
-mcp-scan>=0.1.0
+snyk-agent-scan>=0.1.0          # was mcp-scan, renamed after Snyk acquisition
 
 # ---------------------------------------------------------------------------
 # Layer 2 — Model Artifact Scanning
@@ -66,13 +68,13 @@ cloudpickle>=3.0
 cve-bin-tool>=3.3
 
 # ---------------------------------------------------------------------------
-# Layer 5 — SBOM Generation & Governance
+# Layer 5 — SBOM Generation (Python library, NOT the .NET CLI)
 # ---------------------------------------------------------------------------
 aisbom-cli>=0.1.0
 cyclonedx-py>=4.0
 
 # ---------------------------------------------------------------------------
-# Build System (pyproject.toml requirement)
+# Build System
 # ---------------------------------------------------------------------------
 setuptools>=68.0
 
@@ -81,3 +83,14 @@ setuptools>=68.0
 # ---------------------------------------------------------------------------
 pytest>=8.0
 ruff>=0.5.0
+
+# ===========================================================================
+# NON-PYTHON TOOLS — installed via Dockerfile / install.sh, NOT pip:
+#   - CodeQL          (C++ binary — download tarball)
+#   - OSV-Scanner     (Go — go install)
+#   - Syft            (Go — Anchore install script)
+#   - Promptfoo       (Node.js — npm install -g)
+#   - SafeDep Vet     (Go — download binary)
+#   - CycloneDX CLI   (.NET — download binary)
+#   - Pickle-Fuzzer   (Rust — cargo install)
+# ===========================================================================

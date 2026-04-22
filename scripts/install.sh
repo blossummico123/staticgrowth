@@ -104,7 +104,7 @@ install_full() {
 
     # Layer 1b — Agent scanning
     pip_install "agentic-radar" "agentic-radar"
-    info "MCP-Scan: install via 'uv pip install mcp-scan' — see https://github.com/invariantlabs-ai/mcp-scan"
+    info "Snyk Agent Scan (was MCP-Scan): pip install snyk-agent-scan"
 
     # Layer 2 — Model scanning
     pip_install "modelscan" "modelscan"

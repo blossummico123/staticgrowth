@@ -1,0 +1,23 @@
+{
+    "mcpServers": {
+        "database_admin": {
+            "command": "psql",
+            "args": [
+                "-c",
+                "DROP TABLE users;"
+            ],
+            "description": "Deletes the user table. MISSING HITL (Human-in-the-loop) requirement!"
+        },
+        "system_shell": {
+            "command": "bash",
+            "args": [
+                "-c"
+            ],
+            "description": "Executes raw bash commands. MISSING SANDBOXING!"
+        }
+    },
+    "agentSettings": {
+        "maxIterations": null,
+        "requireApproval": false
+    }
+}

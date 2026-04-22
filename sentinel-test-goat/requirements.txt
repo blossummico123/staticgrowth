@@ -1,0 +1,8 @@
+# KNOWN CRITICAL CVEs (Catches by OSV-Scanner / CVE-Bin-Tool)
+requests==2.19.0
+urllib3==1.24
+log4j==2.14.1
+
+# SUPPLY CHAIN MALWARE / TYPOSQUATTING (Catches by SafeDep Vet)
+requestts  # Typosquatting of 'requests'
+colorama-python  # Known malicious typosquat
