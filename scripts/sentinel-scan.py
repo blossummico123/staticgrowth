@@ -95,7 +95,10 @@ class BaseScanner(ABC):
         pass
 
 
-# ── Native Python Scanners (Layer 2) ─────────────────────────────────
+# ── Native Python Scanners ───────────────────────────────────────────
+# These are GENUINE Python libraries with verified Python APIs.
+# try/except ImportError is correct here — if the pip package isn't
+# installed, we get ImportError and report it as a missing dependency.
 
 class ModelScanNative(BaseScanner):
     name = "ModelScan"
@@ -173,103 +176,6 @@ class FicklingNative(BaseScanner):
         except ImportError:
             findings.append(Finding(self.name, "Pipeline Error", "WARNING", "Fickling Library Missing", "Please run: pip install fickling"))
         return findings
-
-
-class SemgrepNative(BaseScanner):
-    name = "Semgrep"
-    category = "Code SAST"
-    is_native = True
-
-    def scan(self, target_dir, config_dir=None):
-        findings = []
-        try:
-            # Attempt to use semgrep python API if available
-            import semgrep
-            # Since semgrep is heavily CLI-oriented even in Python, we simulate standard import usage
-            # If the pure API isn't publicly stable, we use its invoke module natively without subprocess
-            from semgrep.__main__ import main as semgrep_main
-            
-            # For simplicity in this native integration without sys.argv mocking, 
-            # we will capture its native exception or just use a wrapper
-            raise ImportError("Semgrep native API requires CLI context, falling back to adapter")
-        except ImportError:
-            # Fallback to graceful adapter handling if native API is restricted
-            return SemgrepAdapter().scan(target_dir, config_dir)
-        return findings
-
-
-class CVEBinToolNative(BaseScanner):
-    name = "CVE Binary Tool"
-    category = "Binary CVE"
-    is_native = True
-
-    def scan(self, target_dir, config_dir=None):
-        findings = []
-        try:
-            from cve_bin_tool.cli import main as cbt_main
-            raise ImportError("CVE-Bin-Tool requires CLI context natively")
-        except ImportError:
-            return CVEBinToolAdapter().scan(target_dir, config_dir)
-        return findings
-
-
-# ── Hypothetical Native Tools (Layer 1b / 2) ─────────────────────────
-
-class AgenticRadarNative(BaseScanner):
-    name = "Agentic Radar"
-    category = "Agent Architecture"
-    is_native = True
-    def scan(self, target_dir, config_dir=None):
-        try:
-            import agentic_radar
-            scanner = getattr(agentic_radar, 'Scanner', None)
-            if scanner:
-                results = scanner().scan(target_dir)
-                return [Finding(self.name, self.category, "MEDIUM", "Agentic Issue", str(r)) for r in results]
-        except ImportError: pass
-        return AgenticRadarAdapter().scan(target_dir, config_dir)
-
-class MCPScanNative(BaseScanner):
-    name = "MCP-Scan"
-    category = "Agent Architecture"
-    is_native = True
-    def scan(self, target_dir, config_dir=None):
-        try:
-            import mcp_scan
-            scanner = getattr(mcp_scan, 'Scanner', None)
-            if scanner:
-                results = scanner().scan(target_dir)
-                return [Finding(self.name, self.category, "MEDIUM", "MCP Security Issue", str(r)) for r in results]
-        except ImportError: pass
-        return MCPScanAdapter().scan(target_dir, config_dir)
-
-class VeritensorNative(BaseScanner):
-    name = "Veritensor"
-    category = "Model Artifact — Supply Chain"
-    is_native = True
-    def scan(self, target_dir, config_dir=None):
-        try:
-            import veritensor
-            scanner = getattr(veritensor, 'Scanner', None)
-            if scanner:
-                results = scanner().scan(target_dir)
-                return [Finding(self.name, self.category, "HIGH", "Veritensor Finding", str(r)) for r in results]
-        except ImportError: pass
-        return VeritensorAdapter().scan(target_dir, config_dir)
-
-class ModelAuditNative(BaseScanner):
-    name = "ModelAudit"
-    category = "Model Artifact"
-    is_native = True
-    def scan(self, target_dir, config_dir=None):
-        try:
-            import modelaudit
-            scanner = getattr(modelaudit, 'Scanner', None)
-            if scanner:
-                results = scanner().scan(target_dir)
-                return [Finding(self.name, self.category, "HIGH", "ModelAudit Finding", str(r)) for r in results]
-        except ImportError: pass
-        return ModelAuditAdapter().scan(target_dir, config_dir)
 
 
 # ── CLI Adapters (For non-Python or heavily CLI-bound tools) ─────────
@@ -411,6 +317,10 @@ class CVEBinToolAdapter(CLIAdapter):
         return findings
 
 class AgenticRadarAdapter(CLIAdapter):
+    """Agentic Radar — Python package, but CLI-only interface.
+    Installed via: pip install agentic-radar
+    Binary checked via: shutil.which('agentic-radar')
+    """
     name = "Agentic Radar"
     category = "Agent Architecture"
     def scan(self, target_dir, config_dir=None):
@@ -422,12 +332,18 @@ class AgenticRadarAdapter(CLIAdapter):
                 findings.append(Finding(self.name, self.category, "MEDIUM", line.strip()[:100], line.strip()))
         return findings
 
-class MCPScanAdapter(CLIAdapter):
-    name = "MCP-Scan"
+class SnykAgentScanAdapter(CLIAdapter):
+    """Snyk Agent Scan (formerly MCP-Scan) — Python package, CLI-only.
+    Installed via: pip install snyk-agent-scan
+    Binary checked via: shutil.which('mcp-scan') (backwards-compatible CLI name)
+    """
+    name = "Snyk Agent Scan"
     category = "Agent Architecture"
     def scan(self, target_dir, config_dir=None):
         findings = []
-        rc, out, err = self.run_cmd("mcp-scan", [target_dir])
+        # Try new binary name first, fall back to legacy mcp-scan
+        cmd = "snyk-agent-scan" if shutil.which("snyk-agent-scan") else "mcp-scan"
+        rc, out, err = self.run_cmd(cmd, [target_dir])
         if rc == -1: return findings
         for line in (out + err).split("\n"):
             if any(k in line.lower() for k in ["warning","risk","vuln","unsafe","finding"]):
@@ -435,6 +351,10 @@ class MCPScanAdapter(CLIAdapter):
         return findings
 
 class VeritensorAdapter(CLIAdapter):
+    """Veritensor — Python package with CLI entry point.
+    Installed via: pip install veritensor[all]
+    Binary checked via: shutil.which('veritensor')
+    """
     name = "Veritensor"
     category = "Model Artifact — Supply Chain"
     def scan(self, target_dir, config_dir=None):
@@ -446,6 +366,10 @@ class VeritensorAdapter(CLIAdapter):
         return findings
 
 class ModelAuditAdapter(CLIAdapter):
+    """ModelAudit — Python package with CLI entry point.
+    Installed via: pip install modelaudit[all]
+    Binary checked via: shutil.which('modelaudit')
+    """
     name = "ModelAudit"
     category = "Model Artifact"
     def scan(self, target_dir, config_dir=None):
@@ -466,17 +390,27 @@ class SentinelEngine:
         self.target_dir = os.path.abspath(target_dir)
         self.config_dir = config_dir or os.path.join(os.path.dirname(SCRIPT_DIR), "configs")
         self.scanners: list[BaseScanner] = [
-            # Layer 1
-            SemgrepNative(), CodeQLAdapter(),
-            # Layer 1b
-            AgenticRadarNative(), MCPScanNative(),
-            # Layer 2
-            ModelScanNative(), PicklescanNative(), FicklingNative(), ModelAuditNative(), VeritensorNative(),
-            # Layer 3
+            # Layer 1 — Code SAST
+            # Semgrep: Python pip package but only usable via CLI (OCaml core)
+            # CodeQL: proprietary C++ binary, download tarball
+            SemgrepAdapter(), CodeQLAdapter(),
+            # Layer 1b — Agent Architecture
+            # Agentic Radar: Python pip package, CLI entry point
+            # Snyk Agent Scan: Python pip package (was mcp-scan), CLI entry point
+            AgenticRadarAdapter(), SnykAgentScanAdapter(),
+            # Layer 2 — Model Artifact Scanning
+            # ModelScan, Picklescan, Fickling: Python libraries with real Python APIs
+            # ModelAudit, Veritensor: Python pip packages, CLI entry points
+            ModelScanNative(), PicklescanNative(), FicklingNative(), ModelAuditAdapter(), VeritensorAdapter(),
+            # Layer 3 — Prompt Testing
+            # Promptfoo: Node.js/TypeScript, npm install -g
             PromptfooAdapter(),
-            # Layer 4
-            OSVScannerAdapter(), CVEBinToolNative(),
-            # Layer 5
+            # Layer 4 — Dependency Scanning
+            # OSV-Scanner: Go binary, go install
+            # CVE-Bin-Tool: Python pip package, CLI entry point
+            OSVScannerAdapter(), CVEBinToolAdapter(),
+            # Layer 5 — SBOM
+            # Syft: Go binary, Anchore install script
             SyftAdapter()
         ]
 
@@ -536,32 +470,61 @@ def main():
     parser.add_argument("--prioritize", action="store_true", help="Use OpenAI to prioritize findings")
     parser.add_argument("--model", default="gpt-4o", help="OpenAI model for prioritization")
     
-    # Azure AI Foundry Integration
+    # Azure AI Foundry — Connection
     parser.add_argument("--azure-subscription-id", default=None, help="Azure Subscription ID")
     parser.add_argument("--azure-resource-group", default=None, help="Azure Resource Group")
     parser.add_argument("--azure-workspace-name", default=None, help="Azure AI Foundry Workspace")
-    parser.add_argument("--azure-model-name", default=None, help="Registered Model Name")
-    parser.add_argument("--azure-model-version", default="1", help="Registered Model Version")
+
+    # Azure AI Foundry — Discovery Mode
+    parser.add_argument("--azure-discover", action="store_true", help="Interactive: list all models and prompt for selection")
+    parser.add_argument("--azure-scan-all", action="store_true", help="Headless: download every model version")
+    parser.add_argument("--azure-filter-name", default=None, help="Headless: glob pattern for model names")
+    parser.add_argument("--azure-filter-tag", default=None, help="Headless: filter by tag 'key=value'")
+    parser.add_argument("--azure-filter-type", default=None, help="Headless: filter by model type")
+
+    # Azure AI Foundry — Legacy single-model
+    parser.add_argument("--azure-model-name", default=None, help="Legacy: single model name")
+    parser.add_argument("--azure-model-version", default="1", help="Legacy: single model version")
     
     args = parser.parse_args()
 
     target = os.path.abspath(args.target)
 
-    # Fetch from Azure AI Foundry if requested
-    if args.azure_subscription_id and args.azure_workspace_name and args.azure_model_name:
+    # Azure AI Foundry — fetch models if connection info provided
+    has_azure = args.azure_subscription_id and args.azure_workspace_name
+    if has_azure:
         try:
-            from azure_fetch import fetch_azure_models
+            from azure_fetch import fetch_azure_models, discover_and_fetch
             cache_dir = os.path.join(os.path.dirname(SCRIPT_DIR), "azure_models_cache")
-            success = fetch_azure_models(
-                args.azure_subscription_id, 
-                args.azure_resource_group, 
-                args.azure_workspace_name, 
-                args.azure_model_name, 
-                args.azure_model_version, 
-                cache_dir
-            )
-            if success:
-                target = cache_dir  # Override target to scan the downloaded models
+            is_discovery = args.azure_discover or args.azure_scan_all or \
+                           args.azure_filter_name or args.azure_filter_tag or args.azure_filter_type
+
+            if is_discovery or not args.azure_model_name:
+                # Discovery flow: list → select → fetch
+                success, target_path = discover_and_fetch(
+                    subscription_id=args.azure_subscription_id,
+                    resource_group=args.azure_resource_group,
+                    workspace_name=args.azure_workspace_name,
+                    cache_dir=cache_dir,
+                    scan_all=args.azure_scan_all,
+                    filter_name=args.azure_filter_name,
+                    filter_tag=args.azure_filter_tag,
+                    filter_type=args.azure_filter_type,
+                )
+                if success and target_path:
+                    target = target_path
+            elif args.azure_model_name:
+                # Legacy single-model flow
+                success = fetch_azure_models(
+                    subscription_id=args.azure_subscription_id,
+                    resource_group=args.azure_resource_group,
+                    workspace_name=args.azure_workspace_name,
+                    model_name=args.azure_model_name,
+                    model_version=args.azure_model_version,
+                    cache_dir=cache_dir,
+                )
+                if success:
+                    target = cache_dir
         except Exception as e:
             print(f"  [ERROR] Azure AI Foundry integration failed: {e}")
 

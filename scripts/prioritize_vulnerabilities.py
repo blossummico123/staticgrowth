@@ -321,7 +321,7 @@ def parse_scanner_errors(results_dir):
     findings = []
     error_files = {
         "agents/agentic-radar.txt": "Agentic Radar",
-        "agents/mcp-scan.txt": "MCP-Scan",
+        "agents/snyk-agent-scan.txt": "Snyk Agent Scan",
     }
     for rel_path, scanner_name in error_files.items():
         fpath = os.path.join(results_dir, rel_path)

@@ -25,14 +25,21 @@ scanning = [
     "semgrep",
 ]
 
-# Prompt testing (requires separate API keys)
-prompts = [
-    "promptfoo",
-]
+# Prompt testing
+# NOTE: promptfoo is a Node.js package (npm install -g promptfoo), NOT a pip package.
+# It must be installed separately via npm or in the Dockerfile.
+prompts = []
 
-# Agent scanning
+# Agent scanning (Python pip packages)
 agents = [
     "agentic-radar",
+    "snyk-agent-scan",     # was mcp-scan, renamed after Snyk acquisition
+]
+
+# Azure AI Foundry integration
+azure = [
+    "azure-ai-ml>=1.12",
+    "azure-identity>=1.15",
 ]
 
 # Development
@@ -44,3 +51,14 @@ dev = [
 [build-system]
 requires = ["setuptools>=68.0"]
 build-backend = "setuptools.backends._legacy:_Backend"
+
+# ===========================================================================
+# NON-PYTHON TOOLS — installed via Dockerfile / install.sh, NOT pip:
+#   - CodeQL          (C++ binary — download tarball)
+#   - OSV-Scanner     (Go — go install)
+#   - Syft            (Go — Anchore install script)
+#   - Promptfoo       (Node.js — npm install -g)
+#   - SafeDep Vet     (Go — download binary)
+#   - CycloneDX CLI   (.NET — download binary)
+#   - Pickle-Fuzzer   (Rust — cargo install)
+# ===========================================================================

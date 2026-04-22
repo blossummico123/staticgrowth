@@ -19,7 +19,7 @@ from datetime import datetime, timezone
 SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
 sys.path.insert(0, SCRIPT_DIR)
 
-from azure_fetch import fetch_azure_models
+from azure_fetch import fetch_azure_models, discover_and_fetch
 import importlib.util
 spec = importlib.util.spec_from_file_location("sentinel_scan", os.path.join(SCRIPT_DIR, "sentinel-scan.py"))
 sentinel_scan = importlib.util.module_from_spec(spec)
@@ -78,23 +78,57 @@ def run_pipeline(target_dir: str, config_dir: str = None, prioritize: bool = Fal
     scan_target = os.path.abspath(target_dir)
 
     # ---------------------------------------------------------
-    # Phase 1: Fetching
+    # Phase 1: Fetching from Azure AI Foundry
     # ---------------------------------------------------------
-    if azure_config and all(azure_config.values()):
+    if azure_config:
         try:
             cache_dir = os.path.join(os.path.dirname(SCRIPT_DIR), "azure_models_cache")
-            success = fetch_azure_models(
-                subscription_id=azure_config["subscription_id"], 
-                resource_group=azure_config["resource_group"], 
-                workspace_name=azure_config["workspace_name"], 
-                model_name=azure_config["model_name"], 
-                model_version=azure_config["model_version"], 
-                cache_dir=cache_dir
-            )
-            if success:
-                scan_target = cache_dir
+            is_discovery = azure_config.get("discover") or azure_config.get("scan_all") or \
+                           azure_config.get("filter_name") or azure_config.get("filter_tag") or \
+                           azure_config.get("filter_type")
+
+            if is_discovery:
+                # New discovery flow: list → select → fetch
+                success, target_path = discover_and_fetch(
+                    subscription_id=azure_config["subscription_id"],
+                    resource_group=azure_config["resource_group"],
+                    workspace_name=azure_config["workspace_name"],
+                    cache_dir=cache_dir,
+                    scan_all=azure_config.get("scan_all", False),
+                    filter_name=azure_config.get("filter_name"),
+                    filter_tag=azure_config.get("filter_tag"),
+                    filter_type=azure_config.get("filter_type"),
+                )
+                if success and target_path:
+                    scan_target = target_path
+                else:
+                    print("  [WARNING] Azure discovery returned no models. Scanning original target.")
+            elif azure_config.get("model_name"):
+                # Legacy single-model flow
+                success = fetch_azure_models(
+                    subscription_id=azure_config["subscription_id"],
+                    resource_group=azure_config["resource_group"],
+                    workspace_name=azure_config["workspace_name"],
+                    model_name=azure_config["model_name"],
+                    model_version=azure_config.get("model_version", "1"),
+                    cache_dir=cache_dir,
+                )
+                if success:
+                    scan_target = cache_dir
+                else:
+                    print("  [WARNING] Azure fetch failed. Scanning original target.")
             else:
-                print("  [WARNING] Azure fetch failed or returned no models. Scanning original target.")
+                # Connection info provided but no mode specified — default to discovery
+                success, target_path = discover_and_fetch(
+                    subscription_id=azure_config["subscription_id"],
+                    resource_group=azure_config["resource_group"],
+                    workspace_name=azure_config["workspace_name"],
+                    cache_dir=cache_dir,
+                )
+                if success and target_path:
+                    scan_target = target_path
+                else:
+                    print("  [WARNING] Azure discovery returned no models. Scanning original target.")
         except Exception as e:
             print(f"  [ERROR] Azure AI Foundry fetch crashed: {e}")
 
@@ -145,23 +179,41 @@ if __name__ == "__main__":
     parser.add_argument("--prioritize", action="store_true", help="Use OpenAI to prioritize findings")
     parser.add_argument("--model", default="gpt-4o", help="OpenAI model for prioritization")
     
-    # Azure AI Foundry Integration
+    # Azure AI Foundry — Connection
     parser.add_argument("--azure-subscription-id", default=None, help="Azure Subscription ID")
     parser.add_argument("--azure-resource-group", default=None, help="Azure Resource Group")
     parser.add_argument("--azure-workspace-name", default=None, help="Azure AI Foundry Workspace")
-    parser.add_argument("--azure-model-name", default=None, help="Registered Model Name")
-    parser.add_argument("--azure-model-version", default="1", help="Registered Model Version")
+
+    # Azure AI Foundry — Discovery Mode
+    parser.add_argument("--azure-discover", action="store_true", help="Interactive: list all models and prompt for selection")
+    parser.add_argument("--azure-scan-all", action="store_true", help="Headless: download every model version")
+    parser.add_argument("--azure-filter-name", default=None, help="Headless: glob pattern for model names")
+    parser.add_argument("--azure-filter-tag", default=None, help="Headless: filter by tag 'key=value'")
+    parser.add_argument("--azure-filter-type", default=None, help="Headless: filter by model type")
+
+    # Azure AI Foundry — Legacy single-model
+    parser.add_argument("--azure-model-name", default=None, help="Legacy: single model name")
+    parser.add_argument("--azure-model-version", default="1", help="Legacy: single model version")
     
     args = parser.parse_args()
 
+    # Build azure_config if any Azure connection params are provided
     azure_config = None
-    if args.azure_subscription_id and args.azure_workspace_name and args.azure_model_name:
+    has_azure_connection = args.azure_subscription_id and args.azure_workspace_name
+    if has_azure_connection:
         azure_config = {
             "subscription_id": args.azure_subscription_id,
             "resource_group": args.azure_resource_group,
             "workspace_name": args.azure_workspace_name,
+            # Discovery flags
+            "discover": args.azure_discover,
+            "scan_all": args.azure_scan_all,
+            "filter_name": args.azure_filter_name,
+            "filter_tag": args.azure_filter_tag,
+            "filter_type": args.azure_filter_type,
+            # Legacy single-model
             "model_name": args.azure_model_name,
-            "model_version": args.azure_model_version
+            "model_version": args.azure_model_version,
         }
 
     run_pipeline(

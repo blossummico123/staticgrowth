@@ -4,7 +4,7 @@ AI Sentinel -- PDF Report Generator (Full 6-Layer Pipeline)
 
 Generates a comprehensive PDF report covering all scan layers:
   Layer 1:  Code SAST (Semgrep + CodeQL)
-  Layer 1b: Agent Architecture (Agentic Radar + MCP-Scan)
+  Layer 1b: Agent Architecture (Agentic Radar + Snyk Agent Scan)
   Layer 2:  Model Artifacts (ModelScan + Picklescan + Fickling + ModelAudit + Veritensor)
   Layer 3:  Prompt Regression Testing (Promptfoo)
   Layer 4:  Dependencies (OSV-Scanner + SafeDep vet + CVE Binary Tool)
@@ -347,15 +347,17 @@ def run_agentic_radar(target, results_dir):
     return info
 
 
-def run_mcp_scan(target, results_dir):
-    info = {"scanner": "MCP-Scan", "installed": tool_installed("mcp-scan"),
+def run_snyk_agent_scan(target, results_dir):
+    # Try new binary name first, fall back to legacy mcp-scan
+    cmd = "snyk-agent-scan" if tool_installed("snyk-agent-scan") else "mcp-scan"
+    info = {"scanner": "Snyk Agent Scan", "installed": tool_installed(cmd),
             "findings": 0, "issues": [], "output_file": None}
     if not info["installed"]:
         return info
-    out_file = os.path.join(results_dir, "agents", "mcp-scan.txt")
+    out_file = os.path.join(results_dir, "agents", "snyk-agent-scan.txt")
     os.makedirs(os.path.dirname(out_file), exist_ok=True)
-    print("  Running MCP-Scan...")
-    rc, out, err = run_scanner("mcp-scan", [target], timeout=120)
+    print(f"  Running Snyk Agent Scan ({cmd})...")
+    rc, out, err = run_scanner(cmd, [target], timeout=120)
     combined = out + err
     with open(out_file, "w", errors="replace") as f:
         f.write(combined)
@@ -731,7 +733,7 @@ def run_all_project_scans(target, results_dir, configs_dir):
     print("  Layer 1b: Agent Architecture")
     print("=" * 60)
     layers["agentic_radar"] = run_agentic_radar(target, results_dir)
-    layers["mcp_scan"] = run_mcp_scan(target, results_dir)
+    layers["snyk_agent_scan"] = run_snyk_agent_scan(target, results_dir)
 
     # Layer 3: Prompt Testing
     print("\n" + "=" * 60)
@@ -964,11 +966,11 @@ def build_pdf(fixture_results, manifest, layer_results, output_path, fixtures_di
         pdf.ln(2)
 
     # ── Layer 1b: Agent Architecture ──────────────────────────────
-    pdf.section_title("Layer 1b: Agent Architecture (Agentic Radar + MCP-Scan)")
+    pdf.section_title("Layer 1b: Agent Architecture (Agentic Radar + Snyk Agent Scan)")
     pdf.body_text("Analyses agent frameworks and MCP configurations for security risks.")
-    _pdf_layer_tool_table(pdf, [layer_results["agentic_radar"], layer_results["mcp_scan"]])
+    _pdf_layer_tool_table(pdf, [layer_results["agentic_radar"], layer_results["snyk_agent_scan"]])
 
-    for key in ["agentic_radar", "mcp_scan"]:
+    for key in ["agentic_radar", "snyk_agent_scan"]:
         t = layer_results[key]
         if t["installed"] and t["issues"]:
             pdf.sub_title(f"{t['scanner']} Findings")
